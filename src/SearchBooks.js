@@ -1,39 +1,39 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import escapeRegExp from 'escape-string-regexp';
+import sortBy from 'sort-by';
 
 class SearchBooks extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
   }
 
   state = {
-    query: ''
+    query: '',
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+    this.setState({ query: query.trim() });
   }
 
   clearQuery = () => {
-      this.setState({ query: ''})
+    this.setState({ query: ''});
   }
 
   render() {
-    const { books } = this.props
-    const { query } = this.state
+    const { books } = this.props;
+    const { query } = this.state;
 
-    let  showingBooks
+    let  showingBooks;
     if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter((book) => match.test(book.title))
+      const match = new RegExp(escapeRegExp(query), 'i');
+      showingBooks = books.filter((book) => match.test(book.title));
     } else {
-      showingBooks = books
+      showingBooks = books;
     }
 
-    showingBooks.sort(sortBy('title'))
+    showingBooks.sort(sortBy('title'));
 
     return (
       <div className="search-books">
@@ -52,7 +52,7 @@ class SearchBooks extends Component {
                     <div className="book-cover" style={{
                       width: 128,
                       height: 193,
-                      backgroundImage: `url(${book.imageLinks.thumbnail})`
+                      backgroundImage: `url(${book.imageLinks.thumbnail})`,
                     }}></div>
                     <div className="book-shelf-changer">
                       <select>
@@ -72,8 +72,8 @@ class SearchBooks extends Component {
           </ol>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default SearchBooks
+export default SearchBooks;
