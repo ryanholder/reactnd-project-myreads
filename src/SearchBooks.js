@@ -1,59 +1,67 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import escapeRegExp from 'escape-string-regexp';
-import sortBy from 'sort-by';
+import * as BooksAPI from './BooksAPI';
+
+const MAX_RESULTS = 10;
 
 class SearchBooks extends Component {
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-  }
+  constructor(props) {
+    super(props);
 
-  state = {
-    query: '',
-  }
-
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() });
+    this.state = {
+      query: '',
+      books: [],
+    };
   }
 
   clearQuery = () => {
-    this.setState({ query: ''});
+    this.setState({ query: '' });
+  }
+
+  searchQuery = (query) => {
+    this.setState({ query });
+    if (query) {
+      BooksAPI.search(query, MAX_RESULTS).then((books) => {
+        this.setState(state => ({
+          books: Array.from(books),
+        }));
+      });
+    } else {
+      this.setState({ books: [] });
+    }
   }
 
   render() {
-    const { books } = this.props;
-    const { query } = this.state;
-
-    let  showingBooks;
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
-      showingBooks = books.filter((book) => match.test(book.title));
-    } else {
-      showingBooks = books;
-    }
-
-    showingBooks.sort(sortBy('title'));
+    const { query, books } = this.state;
 
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link className='close-search' to='/'>Close</Link>
+          <Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
-            <input type="text" placeholder="Search by title or author"/>
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={query}
+              onChange={event => this.searchQuery(event.target.value)}
+            />
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {showingBooks.map((book) => (
-              <li key={book.id} className='book-grid-item'>
+            {books.map(book => (
+              <li key={book.id} className="book-grid-item">
                 <div className="book">
                   <div className="book-top">
-                    <div className="book-cover" style={{
-                      width: 128,
-                      height: 193,
-                      backgroundImage: `url(${book.imageLinks.thumbnail})`,
-                    }}></div>
+                    <div
+                      className="book-cover"
+                      style={{
+                        width: 128,
+                        height: 193,
+                        backgroundImage: `url(${book.imageLinks.thumbnail})`,
+                      }}
+                    />
                     <div className="book-shelf-changer">
                       <select>
                         <option value="none" disabled>Move to...</option>
@@ -65,7 +73,7 @@ class SearchBooks extends Component {
                     </div>
                   </div>
                   <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors[0]}</div>
+                  <div className="book-authors">{book.authors}</div>
                 </div>
               </li>
             ))}
@@ -75,5 +83,13 @@ class SearchBooks extends Component {
     );
   }
 }
+
+SearchBooks.propTypes = {
+  myBooks: PropTypes.array,
+};
+
+SearchBooks.defaultProps = {
+  myBooks: [],
+};
 
 export default SearchBooks;

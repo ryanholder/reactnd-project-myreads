@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
 import SearchBooks from './SearchBooks';
 import ListBooks from './ListBooks';
-import * as BooksAPI from './BooksAPI';
 import './App.css';
 
 class BooksApp extends Component {
   state = {
-    books: [],
+    myBooks: [],
   };
 
   componentDidMount() {
@@ -30,9 +30,7 @@ class BooksApp extends Component {
         <Route
           path="/search"
           render={({ history }) => (
-            <SearchBooks
-              books={this.state.books}
-            />
+            <SearchBooks />
           )}
         />
       </div>
