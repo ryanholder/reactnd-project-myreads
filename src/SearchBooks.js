@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 import * as BooksAPI from './BooksAPI';
 
 const MAX_RESULTS = 10;
@@ -22,6 +23,14 @@ class SearchBooks extends Component {
   searchQuery = (query) => {
     this.setState({ query });
     if (query) {
+      this.booksSearch(query);
+    } else {
+      this.setState({ books: [] });
+    }
+  }
+
+  booksSearch = debounce((query) => {
+    if (query) {
       BooksAPI.search(query, MAX_RESULTS).then((books) => {
         this.setState(state => ({
           books: Array.from(books),
@@ -30,7 +39,7 @@ class SearchBooks extends Component {
     } else {
       this.setState({ books: [] });
     }
-  }
+  }, 250)
 
   render() {
     const { query, books } = this.state;
