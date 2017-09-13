@@ -15,6 +15,12 @@ class SearchBooks extends Component {
       books: [],
       error: '',
     };
+
+    console.log(props.myBooks);
+  }
+
+  componentDidMount() {
+    this.searchInput.focus();
   }
 
   clearQuery = () => {
@@ -67,6 +73,7 @@ class SearchBooks extends Component {
               type="text"
               placeholder="Search by title or author"
               value={query}
+              ref={(input) => { this.searchInput = input; }}
               onChange={event => this.searchQuery(event.target.value)}
             />
           </div>
@@ -101,7 +108,7 @@ class SearchBooks extends Component {
                     </div>
                   </div>
                   <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors}</div>
+                  <div className="book-authors">{Array.isArray(book.authors) ? book.authors[0] : book.authors}</div>
                 </div>
               </li>
             ))}
