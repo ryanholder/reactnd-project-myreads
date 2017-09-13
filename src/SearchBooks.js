@@ -13,6 +13,7 @@ class SearchBooks extends Component {
     this.state = {
       query: '',
       books: [],
+      error: '',
     };
   }
 
@@ -30,19 +31,32 @@ class SearchBooks extends Component {
   }
 
   booksSearch = debounce((query) => {
-    if (query) {
-      BooksAPI.search(query, MAX_RESULTS).then((books) => {
+    BooksAPI.search(query, MAX_RESULTS).then((books) => {
+      if (Array.isArray(books)) {
         this.setState(state => ({
-          books: Array.from(books),
+          books,
+          error: '',
         }));
-      });
-    } else {
-      this.setState({ books: [] });
-    }
-  }, 250)
+      } else {
+        switch (books.error) {
+          case 'empty query':
+            this.setState(state => ({
+              books: [],
+              error: 'Your search query has returned 0 results',
+            }));
+            break;
+          default:
+            this.setState(state => ({
+              books: [],
+              error: books.error,
+            }));
+        }
+      }
+    });
+  }, 200)
 
   render() {
-    const { query, books } = this.state;
+    const { query, books, error } = this.state;
 
     return (
       <div className="search-books">
@@ -58,6 +72,11 @@ class SearchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
+          {error !== '' && (
+            <div className="search-books-error">
+              <span>{error}</span>
+            </div>
+          )}
           <ol className="books-grid">
             {books.map(book => (
               <li key={book.id} className="book-grid-item">
