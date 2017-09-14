@@ -13,7 +13,7 @@ class Book extends Component {
 
   render() {
     return (
-      <li key={this.props.id}>
+      <li key={this.props.id} className="book-grid-item">
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.thumbnail})` }} />

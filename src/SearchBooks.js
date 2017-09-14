@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import debounce from 'lodash.debounce';
+import Book from './Book';
 import * as BooksAPI from './BooksAPI';
 
 const MAX_RESULTS = 10;
@@ -15,12 +16,18 @@ class SearchBooks extends Component {
       books: [],
       error: '',
     };
-
-    console.log(props.myBooks);
   }
 
   componentDidMount() {
     this.searchInput.focus();
+  }
+
+  checkBookInList = (book) => {
+    const bookInList = this.props.myBooks.filter(myBook => myBook.id === book.id)[0];
+    if (bookInList === undefined) {
+      return 'none';
+    }
+    return bookInList.shelf;
   }
 
   clearQuery = () => {
@@ -86,31 +93,15 @@ class SearchBooks extends Component {
           )}
           <ol className="books-grid">
             {books.map(book => (
-              <li key={book.id} className="book-grid-item">
-                <div className="book">
-                  <div className="book-top">
-                    <div
-                      className="book-cover"
-                      style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage: `url(${book.imageLinks.thumbnail})`,
-                      }}
-                    />
-                    <div className="book-shelf-changer">
-                      <select>
-                        <option value="none" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{Array.isArray(book.authors) ? book.authors[0] : book.authors}</div>
-                </div>
-              </li>
+              <Book
+                key={book.id}
+                id={book.id}
+                thumbnail={book.imageLinks.thumbnail}
+                shelf={this.checkBookInList(book)}
+                title={book.title}
+                authors={book.authors}
+                onBookShelfChange={this.props.onBookShelfChange}
+              />
             ))}
           </ol>
         </div>
@@ -121,6 +112,7 @@ class SearchBooks extends Component {
 
 SearchBooks.propTypes = {
   myBooks: PropTypes.array,
+  onBookShelfChange: PropTypes.func,
 };
 
 SearchBooks.defaultProps = {
