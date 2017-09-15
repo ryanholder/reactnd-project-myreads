@@ -1,3 +1,3 @@
 # How to contribute
 
-The files in this repository are used in the course videos and are the starting point for all students. Because we want all students to have the same experience going through course, if your pull request alters any of the core files, then it (most likely) will _not_ be merged into the project.
+This is the code for a submitted project that forms part of the Udacity's React Fundamentals course. While all contributions are welcome it should be pointed out that the current features are in place to meet the project specification.
