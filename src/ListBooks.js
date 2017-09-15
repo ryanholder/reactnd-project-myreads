@@ -46,8 +46,4 @@ ListBooks.propTypes = {
   onBookShelfChange: PropTypes.func,
 };
 
-ListBooks.defaultProps = {
-  myBooks: [],
-};
-
 export default ListBooks;

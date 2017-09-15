@@ -115,8 +115,4 @@ SearchBooks.propTypes = {
   onBookShelfChange: PropTypes.func,
 };
 
-SearchBooks.defaultProps = {
-  myBooks: [],
-};
-
 export default SearchBooks;
