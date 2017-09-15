@@ -87,6 +87,22 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
+## Links of Interest
+
+In developing the app there were a number of resources read online in learning however some of the following are notable in that they helped drive certain decisions in how things were done.
+
+* Set focus to input using refs
+    * https://stackoverflow.com/questions/28889826/react-set-focus-on-input-after-render
+    * https://facebook.github.io/react/docs/refs-and-the-dom.html
+* Create Data Model and Pass Callbacks from Parent to Children
+    * https://www.learnhowtoprogram.com/react/react-fundamentals/applying-react-basics
+    * https://www.learnhowtoprogram.com/react/react-fundamentals/modeling-data-and-unidirectional-data-flow
+    * https://facebook.github.io/react/docs/state-and-lifecycle.html#the-data-flows-down
+    * https://facebook.github.io/react/docs/lifting-state-up.html
+    * https://medium.com/@snirlugassy/generic-input-handler-with-react-js-44a97e22cd0d
+* Listing with ESLint
+    * https://www.learnhowtoprogram.com/react/react-fundamentals/building-an-environment-linting
+
 ## Contributing
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
